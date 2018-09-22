@@ -1,0 +1,78 @@
+<html>
+
+<head>
+	<title>Practice Work 3</title>
+
+	<style>
+		table,tr,td,th{	
+		border:1px solid rgb(17, 15, 15);
+	}
+	</style>
+
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$.ajax({
+				url: "movies.xml",
+				type: "get",
+				dataType: "xml",
+				success: function (data) {
+					var table = "<tr><th>Title </th>";
+					table += "<th>Genre </th>";
+					table += "<th>Mpaa-rating </th>";
+					table += "<th>Director </th>";
+                    table += "<th>Cast </th>";
+                    table += "<th>Short Description</th>";
+                    table += "<th>IMDB-rating</th></tr>";
+
+					$(data).find('movie').each(function () {
+						var sTitle = $(this).find('title').text();
+						var sGenre = "";
+						$(this).find('genre').each(function (index, element) {
+							if (index == 0) {
+								sGenre += $(this).text();
+							}
+							else {
+								sGenre += ", " + $(this).text();
+							}
+						});
+						var sMpaa = $(this).find('mpaa-rating').text();
+                        var sDirector = $(this).find('director').text();
+                        var sCast = "";
+						$(this).find('cast').each(function (index, element) {
+							if (index == 0) {
+                                 $(this).find('person').each(function(index, element){
+                                    if(index == 0){
+                                        sCast += $(this).attr('name');
+                                    }else{
+                                        sCast += ", " + $(this).attr('name');
+                                    }
+                                });
+                            }
+						});
+                        var sShortDescription = $(this).find('imdb-info').find('synopsis').text();
+                        var sIMDBRating = $(this).find('imdb-info').find('score').text();
+                        table += "<tr><td>" + sTitle + "</td><td>" + sGenre + "</td><td>" + sMpaa + "</td><td>"
+                              + sDirector + "</td><td>" + sCast + "</td><td>" + sShortDescription + "</td><td>"
+                              + sIMDBRating + "</td></tr>";
+					});
+					$("table").append(table);
+				},
+				error: function (data) {
+					alert("An error occurred while loading XML file.");
+				},
+			});
+		});
+	</script>
+
+</head>
+
+<body>
+
+	<table id="practice" align=center>
+	</table>
+
+</body>
+
+</html>

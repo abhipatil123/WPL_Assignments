@@ -1,0 +1,61 @@
+<html>
+
+<head>
+	<title>Practice Work 3</title>
+
+	<style>
+		table,tr,td,th{	
+		border:1px solid rgb(17, 15, 15);
+	}
+	</style>
+
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$.ajax({
+				url: "books.xml",
+				type: "get",
+				dataType: "xml",
+				success: function (data) {
+					var table = "<tr><th>Title </th>";
+					table += "<th>Author </th>";
+					table += "<th>Category </th>";
+					table += "<th>Year </th>";
+					table += "<th>Price </th></tr>";
+
+					$(data).find('book').each(function () {
+						var sTitle = $(this).find('title').text();
+						var sAuthor = "";
+						$(this).find('author').each(function (index, element) {
+							if (index == 0) {
+								sAuthor += $(this).text();
+							}
+							else {
+								sAuthor += ", " + $(this).text();
+							}
+						});
+						var sCategory = $(this).attr('category');
+						var sYear = $(this).find('year').text();
+						var sPrice = $(this).find('price').text();
+						table += "<tr><td>" + sTitle + "</td><td>" + sAuthor + "</td><td>" + sCategory + "</td><td>" + sYear + "</td><td>" + sPrice + "</td></tr>";
+					}); //Hellp
+					$("table").append(table);
+				},
+				error: function (data) {
+					alert("An error occurred while loading XML file.");
+				},
+			});
+		});
+	</script>
+
+</head>
+
+<body>
+
+	<table id="practice" align=center>
+	</table>
+
+</body>
+
+</html>

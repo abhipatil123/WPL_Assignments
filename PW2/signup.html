@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>signup form</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="signup.css">
+</head>
+
+<body>
+	<div class="container" id="form">
+		<div>
+			<h1>Sign Up</h1>
+			<p>Please fill in this form to create an account.</p>
+		</div>
+		<hr>
+
+		<div style="display: inline-block" class="row" id="FL">
+			<div class="col-md-6" style="float: left">
+				<label for="FN" id="#FN"><b>First Name</b></label>
+				<input type="text" placeholder="First Name" name="FN" id='FN' style="width: 80%" />
+			</div>
+			<div class="col-md-6" style="float: left">
+				<label for="LN" id="#LN"><b>Last Name</b></label>
+				<input type="text" placeholder="Last Name" name="LN" id='LN' style="width: 80%" />
+			</div>
+		</div>
+
+		<div>
+			<label for="email"><b>Email</b></label>
+			<input type="text" placeholder="Enter Email" name="email" id='email' />
+		</div>
+
+		<div>
+			<label for="psw"><b>Password</b></label>
+			<input type="password" placeholder="Enter Password" name="psw" id='psw' />
+		</div>
+
+		<div>
+			<label for="psw-repeat"><b>Repeat Password</b></label>
+			<input type="password" placeholder="Repeat Password" name="psw-repeat" id=psw-repeat />
+		</div>
+
+		<div>
+			<label>
+				<input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px" id='check' /> I accept the <a
+				 href="#" style="color:dodgerblue">Terms of Use </a> & <a href="#" style="color:dodgerblue"> Privacy Policy </a>
+			</label>
+		</div>
+
+		<div class="clearfix">
+			<button type="button" class="signupbtn" id="Button">Sign Up</button>
+		</div>
+	</div>
+</body>
+
+</html>
+
+<script>
+	$(document).ready(function () {
+		// e.preventDefault();
+		$("#form").on('click', '#Button', function () {
+			var FirstName = $("#FN").val();
+			var LastName = $("#LN").val();
+			var pswd = $("#psw").val();
+			var pswd_rpt = $("#psw-repeat").val();
+			var email = $("#email").val();
+			var err = 0;
+
+			if (FirstName.length === 0) {
+				$('#FN').css("border", "3px solid red");
+				err = 1;
+			}
+			if (LastName.length === 0) {
+				$('#LN').css("border", "3px solid red");
+				err = 1;
+			}
+			if (pswd.length === 0) {
+				$('#psw').css("border", "3px solid red");
+				err = 1;
+			} if (email.length === 0) {
+				$('#email').css("border", "3px solid red");
+				err = 1;
+			} if (pswd_rpt.length === 0) {
+				$('#psw-repeat').css("border", "3px solid red");
+				err = 1;
+			}
+
+			if (!document.getElementById('check').checked) {
+				alert("Please check the Agreement option");
+				err = 3;
+			}
+
+			if (pswd !== pswd_rpt) {
+				alert("Password don't match");
+				err = 2;
+			}
+			if (err === 0) {
+				alert("Form submitted successfully");
+				$('#FN').val('');
+				$('#LN').val('');
+				$('#email').val('');
+				$('#psw').val('');
+				$('#psw-repeat').val('');
+			} else if (err == 1) {
+				alert("Highlighted Fields should be entered")
+			}
+		});
+
+		$('#FN').keyup(function () {
+			$('#FN').css("border", "3px solid white");
+		})
+		$('#LN').keyup(function () {
+			$('#LN').css("border", "3px solid white");
+		})
+		$('#psw').keyup(function () {
+			$('#psw').css("border", "3px solid white");
+		})
+		$('#psw-repeat').keyup(function () {
+			$('#psw-repeat').css("border", "3px solid white");
+		})
+		$('#email').keyup(function () {
+			$('#email').css("border", "3px solid white");
+		})
+	});
+</script>
+
+
+<!-- <div class="invalid feedback"
+	 ($id.addClass('is-valid')) -->
