@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<title>Baby Names</title>
+	<script>
+		$(document).ready(function () {
+			$("#form").submit(function (e) {
+				e.preventDefault();
+				var table = `<table class='table table-striped' id="myTable">
+					<tr>
+						<th>Name</th>
+						<th>Year</th>
+						<th>Popularity Ranking</th>
+						<th>Gender</th>
+					</tr>
+				</table>`;
+				$("#results_div").html(table);
+				$.ajax({
+					method: "POST",
+					url: "babynames.php",
+					data: $("#form").serialize(),
+					dataType: "json",
+					success: function (results) {
+						for (row of results){
+							let g = "";
+							if (row.gender == "m") g = "Male"; else g = "Female";
+							var table_row = "<tr>" +
+								"<td>" + row.name + "</td>" +
+								"<td>" + row.year + "</td>" +
+								"<td>" + row.ranking + "</td>" +
+								"<td>" + g + "</td>" +
+								"</tr>";
+							$("#myTable tr:last").after(table_row);
+						}
+						//console.log(results);
+					},
+					error: function () {
+						console.log("The PHP File could not be processed correctly.");
+					}
+				});
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<div class="container">
+		<h3>Top 5 popular names based on Year and Gender</h3>
+		<form class="form-inline" action="#" method="POST" id="form">
+			<label for="year">Select Year</label>
+			<select id="year" name="year">
+				<option value="%" selected>All Years</option>
+				<option value="2005">2005</option>
+				<option value="2006">2006</option>
+				<option value="2007">2007</option>
+				<option value="2008">2008</option>
+				<option value="2009">2009</option>
+				<option value="2010">2010</option>
+				<option value="2011">2011</option>
+				<option value="2012">2012</option>
+				<option value="2013">2013</option>
+				<option value="2014">2014</option>
+				<option value="2015">2015</option>
+			</select>
+			<label for="gender">Select Gender</label>
+			<select id="gender" name="gender">
+				<option value="%" selected>Both</option>
+				<option value="m">Male</option>
+				<option value="f">Female</option>
+			</select>
+			<input type="submit" />
+		</form>
+		<hr />
+		<div id="results_div">
+			
+		</div>
+	</div>
+</body>
+
+</html>
